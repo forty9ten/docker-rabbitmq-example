@@ -2,7 +2,7 @@
 
 It is pretty common to have multiple applications communicate with each other over a network.  You might have a database server that the application server retrieves data from.  In the Docker world, you will create two containers: One for the databsae server and the second one for the application server.
 
-In this tutorial we will demostrate how to setup Docker containers so they can communicate with each other transparently via Links.  Links (since 0.6.5) provides service disocvery for the Docker containers.  There's no need to hardcode the IP address inside  the application that runs in a Docker container.  When you link the containers together Docker will provide the IP address to where the destination container is.  This can also be used as a security feature because, in order for containers to be linked, a name must be specified ahead of time.
+In this tutorial we will demostrate how to setup Docker containers so they can communicate with each other transparently via [Links](http://docs.docker.io/en/latest/use/working_with_links_names/).  Links (since 0.6.5) provides service disocvery for the Docker containers.  There's no need to hardcode the IP address inside  the application that runs in a Docker container.  When you link the containers together Docker will provide the IP address to where the destination container is.  This can also be used as a security feature because, in order for containers to be linked, a name must be specified ahead of time.
 
 I will demostrate Docker Links via a demo RabbitMQ application.
 The topology will consist of three containers:
