@@ -70,7 +70,7 @@ One thing to note is that both clients share the same Docker image since they ar
 
 Once RabbitMQ has successfully been built, we can run it via command below:
 
-```docker run -name rabbitmq -h rabbitmq rabbitmq```
+```docker run -name rabbitmq -h rabbitmq -p :49900:15672 rabbitmq```
 
 In order to allow other containers to communicate to the RabbitMQ server, we need to provide a linking name via the **```--name```** option.  **```-h```** is used to specify the hostname of the container.  RabbitMQ uses the hostname to name the log files.  Both the log files and the name of the container is set to **```rabbitmq```**.
 
@@ -86,6 +86,17 @@ You should see RabbitMQ logo and the terminal window will block.
               Starting broker... completed with 6 plugins.
 ```
 
+Since we are running RabbitMQ inside Vagrant with no graphical user interface, if we want to see the admin interface for RabbitMQ we need to use the browser on the host machine that is running Vagrant.  This is what the current network topology looks like:
+
+`Host -> Vagrant -> RabbitMQ`
+
+We need to do some port forwarding in order make all three levels of indirections workout.  The included Vagrant file is already port forwarding 49000 to 49900 from the host to Vagrant.  By default, the RabbitMQ admin interface is running on port 15672, so now we need to connect Vagrant port RabbitMQ.  The **`-p`** option specifies port forwarding separated by **`:`** and has the syntax of **`INTERFACE:HOST_PORT:DESTINATION_PORT`**.  We left the interface empty which means it will bind to all interfaces.  The port forwarding looks like below:
+
+`Host:49900 -> Vagrant:49900 -> RabbitMQ:15672`
+
+If everything is setup correctly, we can browse RabbitMQ admin interface from our host browser by going to **`localhost:49900`** (guest/guest)
+
+![RabbitMQ](http://cl.ly/image/221e0p400v1P/RabbitMQ_Management.png =220x150)
 #### Run the Clients    
 
 We need to connect two more terminals to vagrant since both apps outputs to stdout while it's running.
@@ -105,7 +116,6 @@ If everything goes well, you should see the subcriber output the message counter
 The two RabbitMQ clients can be terminated by sending the Ctrl-C signal.  However, RabbitMQ doesn't trap the signal, so we can stop the container via ```docker stop```. 
 
 ```docker stop rabbitmq```
-
 
 #### Caveat
 
