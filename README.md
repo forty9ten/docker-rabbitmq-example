@@ -15,7 +15,7 @@ We will be using Docker 0.7.2 via Vagrant.  I have created a custom vagrant box 
 
 Clone the demo repository and ```cd``` into it:
 
-```git clone TODO_FIX_REPO_NAME``` 
+```git clone docker-rabbitmq-example``` 
 
 Start up vagrant virtual machine and connect via ssh:
 
