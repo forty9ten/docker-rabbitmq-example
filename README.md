@@ -76,6 +76,16 @@ In order to allow other containers to communicate to the RabbitMQ server, we nee
 
 You should see RabbitMQ logo and the terminal window will block.
 
+```
+              RabbitMQ 3.2.2. Copyright (C) 2007-2013 GoPivotal, Inc.
+  ##  ##      Licensed under the MPL.  See http://www.rabbitmq.com/
+  ##  ##
+  ##########  Logs: /var/log/rabbitmq/rabbit@rabbitmq.log
+  ######  ##        /var/log/rabbitmq/rabbit@rabbitmq-sasl.log
+  ##########
+              Starting broker... completed with 6 plugins.
+```
+
 #### Run the Clients    
 
 We need to connect two more terminals to vagrant since both apps outputs to stdout while it's running.
