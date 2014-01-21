@@ -97,6 +97,7 @@ We need to do some port forwarding in order make all three levels of indirection
 If everything is setup correctly, we can browse RabbitMQ admin interface from our host browser by going to `localhost:49900` (guest/guest)
 
 ![RabbitMQ](http://cl.ly/image/221e0p400v1P/RabbitMQ_Management.png =220x150)
+
 #### Run the Clients
 
 We need to connect two more terminals to vagrant since both apps outputs to stdout while it's running.
@@ -110,6 +111,16 @@ Now the subscriber (```client2.rb```).
 ```docker run -i -t -link rabbitmq:rabbitmq rabbitmq_client client2.rb```
 
 If everything goes well, you should see the subcriber output the message counter on the screen.
+
+`-link` take two values ```NAME:ALIAS```.  Name is the target container that will be linked to, and alias affects how the current container will refer to the linked container.  If you look at ```client1.rb``` it uses some environment variables to find RabbitMQ.
+
+```
+@conn = Bunny.new :host => ENV["RABBITMQ_PORT_5672_TCP_ADDR"],
+                  :port => ENV["RABBITMQ_PORT_5672_TCP_PORT"]
+```
+
+The IP address and port environment variables are passed in from Docker and constructed from the link name and the port RabbitMQ exposes (via EXPOSE in RabbitMQ's Dockerfile).  The environment variables are prefixed with the link name and can be overriden via alias.
+
 
 #### Clean Up
 
