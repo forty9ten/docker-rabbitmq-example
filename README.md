@@ -4,7 +4,7 @@ It is pretty common to have multiple applications communicate with each other ov
 
 In this tutorial we will demostrate how to setup Docker containers so they can communicate with each other transparently via Links.  Links (since 0.6.5) provides service disocvery for the Docker containers.  There's no need to hardcode the IP address inside  the application that runs in a Docker container.  When you link the containers together Docker will provide the IP address to where the destination container is.  This can also be used as a security feature because, in order for containers to be linked, a name must be specified ahead of time.
 
-I will demostrate Docker Links via a demo RabbitMQ application.  
+I will demostrate Docker Links via a demo RabbitMQ application.
 The topology will consist of three containers:
 
 * RabbitMQ Server
@@ -15,7 +15,7 @@ We will be using Docker 0.7.2 via Vagrant.  I have created a custom vagrant box 
 
 Clone the demo repository and ```cd``` into it:
 
-```git clone docker-rabbitmq-example``` 
+```git clone docker-rabbitmq-example```
 
 Start up vagrant virtual machine and connect via ssh:
 
@@ -72,7 +72,7 @@ Once RabbitMQ has successfully been built, we can run it via command below:
 
 ```docker run -name rabbitmq -h rabbitmq -p :49900:15672 rabbitmq```
 
-In order to allow other containers to communicate to the RabbitMQ server, we need to provide a linking name via the **```--name```** option.  **```-h```** is used to specify the hostname of the container.  RabbitMQ uses the hostname to name the log files.  Both the log files and the name of the container is set to **```rabbitmq```**.
+In order to allow other containers to communicate to the RabbitMQ server, we need to provide a linking name via the ```--name``` option.  ```-h``` is used to specify the hostname of the container.  RabbitMQ uses the hostname to name the log files.  Both the log files and the name of the container is set to ```rabbitmq```.
 
 You should see RabbitMQ logo and the terminal window will block.
 
@@ -90,22 +90,22 @@ Since we are running RabbitMQ inside Vagrant with no graphical user interface, i
 
 `Host -> Vagrant -> RabbitMQ`
 
-We need to do some port forwarding in order make all three levels of indirections workout.  The included Vagrant file is already port forwarding 49000 to 49900 from the host to Vagrant.  By default, the RabbitMQ admin interface is running on port 15672, so now we need to connect Vagrant port RabbitMQ.  The **`-p`** option specifies port forwarding separated by **`:`** and has the syntax of **`INTERFACE:HOST_PORT:DESTINATION_PORT`**.  We left the interface empty which means it will bind to all interfaces.  The port forwarding looks like below:
+We need to do some port forwarding in order make all three levels of indirections workout.  The included Vagrant file is already port forwarding 49000 to 49900 from the host to Vagrant.  By default, the RabbitMQ admin interface is running on port 15672, so now we need to connect Vagrant port RabbitMQ.  The ```-p``` option specifies port forwarding separated by ```:``` and has the syntax of ```INTERFACE:HOST_PORT:DESTINATION_PORT```.  We left the interface empty which means it will bind to all interfaces.  The port forwarding looks like below:
 
 `Host:49900 -> Vagrant:49900 -> RabbitMQ:15672`
 
-If everything is setup correctly, we can browse RabbitMQ admin interface from our host browser by going to **`localhost:49900`** (guest/guest)
+If everything is setup correctly, we can browse RabbitMQ admin interface from our host browser by going to `localhost:49900` (guest/guest)
 
 ![RabbitMQ](http://cl.ly/image/221e0p400v1P/RabbitMQ_Management.png =220x150)
-#### Run the Clients    
+#### Run the Clients
 
 We need to connect two more terminals to vagrant since both apps outputs to stdout while it's running.
 
-Let's start the publisher first (```client1.rb```) 
+Let's start the publisher first (```client1.rb```)
 
 ```docker run -i -t -link rabbitmq:rabbitmq rabbitmq_client client1.rb```
 
-Now the subscriber (```client2.rb```). 
+Now the subscriber (```client2.rb```).
 
 ```docker run -i -t -link rabbitmq:rabbitmq rabbitmq_client client2.rb```
 
@@ -113,7 +113,7 @@ If everything goes well, you should see the subcriber output the message counter
 
 #### Clean Up
 
-The two RabbitMQ clients can be terminated by sending the Ctrl-C signal.  However, RabbitMQ doesn't trap the signal, so we can stop the container via ```docker stop```. 
+The two RabbitMQ clients can be terminated by sending the Ctrl-C signal.  However, RabbitMQ doesn't trap the signal, so we can stop the container via ```docker stop```.
 
 ```docker stop rabbitmq```
 
@@ -136,4 +136,3 @@ All containers can be run in the background without blocking the terminal.  In t
 
 Notice the RabbitMQ clients are actually running CentOS images, while RabbitMQ server is running Ubuntu.  There is no requirement for what flavor of Linux the containers are running.  It doesn't even have to match the host OS.
 
- 
