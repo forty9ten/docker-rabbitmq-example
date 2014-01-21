@@ -35,7 +35,7 @@ Let's start by building the RabbitMQ container.  Docker can build it directly fr
 
 ```docker build -rm -t rabbitmq github.com/forty9ten/docker-rabbitmq```
 
-Since building is complete, you can verify it by listing all the available images:
+Once build is complete, you can verify it by listing all the available images:
 
 ```docker images```
 
@@ -46,6 +46,13 @@ ubuntu              12.04               8dbd9e392a96        9 months ago        
 ```
 
 The image IDs will be different but everything else should be very similar.
+
+We passed ```-rm``` to delete all intermediate layers in order to keep the images more compact.
+Each RUN command will create a new layer.  A layer is like a snapshot, a new layer is created
+after a sucessful RUN command.  This is why Docker images builds can be so fast because
+if anything else failed after a RUN command it will continue from the previous known
+good layer instead of starting over again.  In our case we only cares about the final
+image that's why we delete all intermediate layers.
 
 #### Build the Clients
 
