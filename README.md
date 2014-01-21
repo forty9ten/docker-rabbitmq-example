@@ -1,4 +1,4 @@
-### Linking Docker Containers
+### Docker Service Discovery (AKA: Linking Docker Containers)
 
 It is pretty common to have multiple applications communicate with each other over a network.  You might have a database server that the application server retrieves data from.  In the Docker world, you will create two containers: One for the databsae server and the second one for the application server.
 
