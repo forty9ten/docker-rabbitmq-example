@@ -1,10 +1,10 @@
 ### Docker Service Discovery (AKA: Linking Docker Containers)
 
-It is pretty common to have multiple applications communicate with each other over a network.  You might have a database server that the application server retrieves data from.  In the Docker world, you will create two containers: One for the databsae server and the second one for the application server.
+It is pretty common to have multiple applications communicate with each other over a network.  You might have a database server that the application server retrieves data from.  In the Docker world, you will create two containers: One for the database server and the second one for the application server.
 
-In this tutorial we will demostrate how to setup Docker containers so they can communicate with each other transparently via [Links](http://docs.docker.io/en/latest/use/working_with_links_names/).  Links (since 0.6.5) provides service disocvery for the Docker containers.  There's no need to hardcode the IP address inside  the application that runs in a Docker container.  When you link the containers together Docker will provide the IP address to where the destination container is.  This can also be used as a security feature because, in order for containers to be linked, a name must be specified ahead of time.
+In this tutorial we will demonstrate how to setup Docker containers so they can communicate with each other transparently via [Links](http://docs.docker.io/en/latest/use/working_with_links_names/).  Links (since 0.6.5) provides service discovery for the Docker containers.  There's no need to hardcode the IP address inside  the application that runs in a Docker container.  When you link the containers together Docker will provide the IP address to where the destination container is.  This can also be used as a security feature because, in order for containers to be linked, a name must be specified ahead of time.
 
-I will demostrate Docker Links via a demo RabbitMQ application.
+I will demonstrate Docker Links via a demo RabbitMQ application.
 The topology will consist of three containers:
 
 * RabbitMQ Server
@@ -49,7 +49,7 @@ The image IDs will be different but everything else should be very similar.
 
 We passed ```-rm``` to delete all intermediate layers in order to keep the images more compact.
 Each ```RUN``` command will create a new layer.  A layer is like a snapshot, a new layer is created
-after a sucessful ```RUN``` command.  This is why Docker images builds can be so fast because
+after a successful ```RUN``` command.  This is why Docker images builds can be so fast because
 if anything else failed after a ```RUN``` command it will continue from the previous known
 good layer instead of starting over again.  In our case we only care about the final
 image that's why we delete all intermediate layers.
@@ -126,7 +126,7 @@ If everything goes well, you should see the subcriber output the message counter
                   :port => ENV["RABBITMQ_PORT_5672_TCP_PORT"]
 ```
 
-The IP address and port environment variables are passed in from Docker and constructed from the link name and the port RabbitMQ exposes (via EXPOSE in RabbitMQ's Dockerfile).  The environment variables are prefixed with the link name and can be overriden via alias.
+The IP address and port environment variables are passed in from Docker and constructed from the link name and the port RabbitMQ exposes (via EXPOSE in RabbitMQ's Dockerfile).  The environment variables are prefixed with the link name and can be overridden via alias.
 
 
 #### Clean Up
